@@ -1,0 +1,17 @@
+{
+  "name": "habit-tracker",
+  "main": "worker/index.ts",
+  "compatibility_date": "2025-01-01",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "habit_tracker",
+      "database_id": "PLACEHOLDER_SET_AFTER_D1_CREATE"
+    }
+  ]
+}
