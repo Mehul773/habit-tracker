@@ -9,8 +9,8 @@ function daysBetween(a: string, b: string): number {
 }
 
 export function Header({
-  state, pw, onLock, onUnlockClick,
-}: { state: AppState; pw: string | null; onLock: () => void; onUnlockClick: () => void }) {
+  state, pw, onLock, onUnlockClick, onOpenPanel,
+}: { state: AppState; pw: string | null; onLock: () => void; onUnlockClick: () => void; onOpenPanel?: () => void }) {
   const today = istToday();
   const idx = indexEntries(state.entries);
   const from = state.settings.sprint_on && state.settings.sprint_start
@@ -48,6 +48,14 @@ export function Header({
         <Chip label="Streak" value={`${streak}d`} />
         <Chip label="Perfect" value={perfect} />
         <Chip label="Active" value={activeN} />
+        {pw && onOpenPanel && (
+          <button
+            onClick={onOpenPanel}
+            aria-label="Manage habits and settings"
+            className="rounded-lg bg-neutral-800 px-3 py-1.5 text-sm">
+            ⚙
+          </button>
+        )}
         <button
           onClick={pw ? onLock : onUnlockClick}
           className="rounded-lg bg-neutral-800 px-3 py-1.5 text-sm">

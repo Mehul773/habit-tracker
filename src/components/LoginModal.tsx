@@ -26,7 +26,7 @@ export function LoginModal({
           type="password" autoFocus value={pw}
           onChange={(e) => setPw(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && submit()}
-          placeholder={hasPassword ? "Password" : "New password (your mobile number)"}
+          placeholder={hasPassword ? "Password" : "New password"}
           className="mt-3 w-full rounded-lg bg-neutral-800 px-3 py-2 outline-none"
         />
         {err && <p className="mt-2 text-sm text-red-400">{err}</p>}
