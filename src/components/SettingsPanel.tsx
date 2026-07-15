@@ -3,7 +3,7 @@ import type { AppState } from "../lib/types";
 import { updateSettings, setPassword } from "../lib/api";
 import { istToday } from "../lib/dates";
 
-export function SettingsPanel({ state, pw, onChanged }: { state: AppState; pw: string; onChanged: () => void }) {
+export function SettingsPanel({ state, pw, onChanged, onPwChange }: { state: AppState; pw: string; onChanged: () => void; onPwChange: (pw: string) => void }) {
   const [open, setOpen] = useState(false);
   const s = state.settings;
   const [cur, setCur] = useState(""); const [nw, setNw] = useState(""); const [msg, setMsg] = useState("");
@@ -11,7 +11,7 @@ export function SettingsPanel({ state, pw, onChanged }: { state: AppState; pw: s
   async function save(patch: Record<string, unknown>) { await updateSettings(pw, patch); onChanged(); }
   async function changePw() {
     setMsg("");
-    try { await setPassword(nw, cur); setMsg("Password changed."); setCur(""); setNw(""); onChanged(); }
+    try { await setPassword(nw, cur); onPwChange(nw); setMsg("Password changed."); setCur(""); setNw(""); onChanged(); }
     catch (e) { setMsg((e as Error).message); }
   }
 

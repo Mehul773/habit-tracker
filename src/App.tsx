@@ -21,6 +21,7 @@ export default function App() {
 
   function onUnlockSuccess(p: string) { savePw(p); setPwState(p); setShowLogin(false); reload(); }
   function onLock() { clearPw(); setPwState(null); }
+  function onPwChange(p: string) { savePw(p); setPwState(p); }
 
   if (!state) return <div className="p-6">Loading…</div>;
 
@@ -46,7 +47,7 @@ export default function App() {
         ))}
       </section>
       {pw && <ManageHabits state={state} pw={pw} onChanged={reload} />}
-      {pw && <SettingsPanel state={state} pw={pw} onChanged={reload} />}
+      {pw && <SettingsPanel state={state} pw={pw} onChanged={reload} onPwChange={onPwChange} />}
     </div>
   );
 }

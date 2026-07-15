@@ -26,7 +26,8 @@ export async function handleApi(request: Request, env: Env): Promise<Response> {
   // public read
   if (method === "GET" && path === "/api/state") {
     const today = istToday();
-    const from = url.searchParams.get("from") ?? addDays(today, -119);
+    // wide default so long sprints are fully covered
+    const from = url.searchParams.get("from") ?? addDays(today, -399);
     const to = url.searchParams.get("to") ?? today;
     return json(await getState(env, from, to));
   }
