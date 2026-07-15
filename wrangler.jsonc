@@ -2,6 +2,11 @@
   "name": "habit-tracker",
   "main": "worker/index.ts",
   "compatibility_date": "2025-01-01",
+  // Builds the SPA (dist/) before deploy — runs both locally and in
+  // Cloudflare's git-connected Workers Builds, so no dashboard build command is needed.
+  "build": {
+    "command": "npm run build"
+  },
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",
@@ -11,7 +16,7 @@
     {
       "binding": "DB",
       "database_name": "habit_tracker",
-      "database_id": "PLACEHOLDER_SET_AFTER_D1_CREATE"
+      "database_id": "bd752e58-a223-487d-b059-49eb275b9372"
     }
   ]
 }
