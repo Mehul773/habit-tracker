@@ -6,6 +6,7 @@ import { Header } from "./components/Header";
 import { LoginModal } from "./components/LoginModal";
 import { Grid } from "./components/Grid";
 import { Today } from "./components/Today";
+import { NumberChart } from "./components/NumberChart";
 import { istToday, addDays } from "./lib/dates";
 
 export default function App() {
@@ -37,7 +38,12 @@ export default function App() {
         <Grid state={state} from={from} to={today} />
       </section>
       <Today state={state} pw={pw} onChanged={reload} />
-      {/* Charts, Manage, Settings wired in later tasks */}
+      <section className="mt-6 grid gap-3 sm:grid-cols-2">
+        {state.habits.filter((h) => h.kind === "number" && h.archived === 0).map((h) => (
+          <NumberChart key={h.id} habit={h} entries={state.entries} from={from} to={today} />
+        ))}
+      </section>
+      {/* Manage, Settings wired in later tasks */}
     </div>
   );
 }
