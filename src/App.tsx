@@ -7,6 +7,7 @@ import { LoginModal } from "./components/LoginModal";
 import { Grid } from "./components/Grid";
 import { Today } from "./components/Today";
 import { NumberChart } from "./components/NumberChart";
+import { ManageHabits } from "./components/ManageHabits";
 import { istToday, addDays } from "./lib/dates";
 
 export default function App() {
@@ -43,7 +44,8 @@ export default function App() {
           <NumberChart key={h.id} habit={h} entries={state.entries} from={from} to={today} />
         ))}
       </section>
-      {/* Manage, Settings wired in later tasks */}
+      {pw && <ManageHabits state={state} pw={pw} onChanged={reload} />}
+      {/* Settings wired in later tasks */}
     </div>
   );
 }
