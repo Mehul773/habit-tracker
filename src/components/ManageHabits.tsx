@@ -28,19 +28,19 @@ export function ManageHabits({ state, pw, onChanged }: { state: AppState; pw: st
       <div className="space-y-2">
         {habits.map((h, i) => (
           <div key={h.id} className="flex flex-wrap items-center gap-2 rounded-lg bg-neutral-900 p-2">
-            <input value={h.emoji} onChange={(e) => patch(h.id, { emoji: e.target.value })} className="w-10 rounded bg-neutral-800 px-2 py-1 text-center" />
-            <input value={h.name} onChange={(e) => patch(h.id, { name: e.target.value })} className="min-w-32 flex-1 rounded bg-neutral-800 px-2 py-1" />
+            <input defaultValue={h.emoji} onBlur={(e) => patch(h.id, { emoji: e.target.value })} className="w-10 rounded bg-neutral-800 px-2 py-1 text-center" />
+            <input defaultValue={h.name} onBlur={(e) => patch(h.id, { name: e.target.value })} className="min-w-32 flex-1 rounded bg-neutral-800 px-2 py-1" />
             <input type="color" value={h.color} onChange={(e) => patch(h.id, { color: e.target.value })} className="h-8 w-10 rounded bg-neutral-800" />
             <select value={h.kind} onChange={(e) => patch(h.id, { kind: e.target.value as Habit["kind"] })} className="rounded bg-neutral-800 px-2 py-1">
               <option value="check">check</option><option value="number">number</option>
             </select>
             {h.kind === "number" && (
               <>
-                <input type="number" value={h.goal ?? 0} onChange={(e) => patch(h.id, { goal: Number(e.target.value) })} className="w-16 rounded bg-neutral-800 px-2 py-1" />
+                <input type="number" defaultValue={h.goal ?? 0} onBlur={(e) => patch(h.id, { goal: Number(e.target.value) })} className="w-16 rounded bg-neutral-800 px-2 py-1" />
                 <select value={h.goal_dir ?? "atLeast"} onChange={(e) => patch(h.id, { goal_dir: e.target.value as Habit["goal_dir"] })} className="rounded bg-neutral-800 px-2 py-1">
                   <option value="atLeast">≥</option><option value="atMost">≤</option>
                 </select>
-                <input value={h.unit} placeholder="unit" onChange={(e) => patch(h.id, { unit: e.target.value })} className="w-16 rounded bg-neutral-800 px-2 py-1" />
+                <input defaultValue={h.unit} placeholder="unit" onBlur={(e) => patch(h.id, { unit: e.target.value })} className="w-16 rounded bg-neutral-800 px-2 py-1" />
               </>
             )}
             <button onClick={() => move(i, -1)} className="px-1.5 text-neutral-400">↑</button>
