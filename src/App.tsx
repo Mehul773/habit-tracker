@@ -4,6 +4,8 @@ import { fetchState } from "./lib/api";
 import { getPw, setPw as savePw, clearPw } from "./lib/editmode";
 import { Header } from "./components/Header";
 import { LoginModal } from "./components/LoginModal";
+import { Grid } from "./components/Grid";
+import { istToday, addDays } from "./lib/dates";
 
 export default function App() {
   const [state, setState] = useState<AppState | null>(null);
@@ -18,6 +20,10 @@ export default function App() {
 
   if (!state) return <div className="p-6">Loading…</div>;
 
+  const today = istToday();
+  const from = state.settings.sprint_on && state.settings.sprint_start
+    ? state.settings.sprint_start : addDays(today, -119);
+
   return (
     <div className="mx-auto max-w-5xl p-4 sm:p-6">
       <Header state={state} pw={pw} onLock={onLock} onUnlockClick={() => setShowLogin(true)} />
@@ -25,7 +31,11 @@ export default function App() {
         <LoginModal hasPassword={state.settings.has_password}
           onClose={() => setShowLogin(false)} onSuccess={onUnlockSuccess} />
       )}
-      {/* Grid, Today, charts, Manage, Settings wired in later tasks */}
+      <section className="mt-6">
+        <h2 className="mb-1 text-sm font-medium text-neutral-400">The grid</h2>
+        <Grid state={state} from={from} to={today} />
+      </section>
+      {/* Today, charts, Manage, Settings wired in later tasks */}
     </div>
   );
 }
