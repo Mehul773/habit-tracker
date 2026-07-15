@@ -5,6 +5,7 @@ import { getPw, setPw as savePw, clearPw } from "./lib/editmode";
 import { Header } from "./components/Header";
 import { LoginModal } from "./components/LoginModal";
 import { Grid } from "./components/Grid";
+import { Today } from "./components/Today";
 import { istToday, addDays } from "./lib/dates";
 
 export default function App() {
@@ -35,7 +36,8 @@ export default function App() {
         <h2 className="mb-1 text-sm font-medium text-neutral-400">The grid</h2>
         <Grid state={state} from={from} to={today} />
       </section>
-      {/* Today, charts, Manage, Settings wired in later tasks */}
+      <Today state={state} pw={pw} onChanged={reload} />
+      {/* Charts, Manage, Settings wired in later tasks */}
     </div>
   );
 }
