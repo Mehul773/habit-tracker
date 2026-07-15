@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { AppState } from "../lib/types";
 import { updateSettings, setPassword } from "../lib/api";
 import { istToday } from "../lib/dates";
+import { PasswordInput } from "./PasswordInput";
 
 export function SettingsPanel({ state, pw, onChanged, onPwChange }: { state: AppState; pw: string; onChanged: () => void; onPwChange: (pw: string) => void }) {
   const s = state.settings;
@@ -43,10 +44,10 @@ export function SettingsPanel({ state, pw, onChanged, onPwChange }: { state: App
 
       <div className="border-t border-neutral-800 pt-3">
         <h3 className="text-sm font-medium">Change edit password</h3>
-        <div className="mt-2 flex flex-wrap gap-2">
-          <input type="password" placeholder="current" value={cur} onChange={(e) => setCur(e.target.value)} className="rounded bg-neutral-800 px-2 py-1" />
-          <input type="password" placeholder="new" value={nw} onChange={(e) => setNw(e.target.value)} className="rounded bg-neutral-800 px-2 py-1" />
-          <button onClick={changePw} className="rounded bg-neutral-700 px-3 py-1 text-sm">Change</button>
+        <div className="mt-2 flex flex-wrap items-start gap-2">
+          <PasswordInput placeholder="current" value={cur} onChange={setCur} className="w-32" />
+          <PasswordInput placeholder="new" value={nw} onChange={setNw} className="w-32" />
+          <button onClick={changePw} className="rounded bg-neutral-700 px-3 py-1.5 text-sm">Change</button>
         </div>
       </div>
 

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { verify, setPassword } from "../lib/api";
+import { PasswordInput } from "./PasswordInput";
 
 export function LoginModal({
   hasPassword, onClose, onSuccess,
@@ -22,12 +23,12 @@ export function LoginModal({
     <div className="fixed inset-0 z-50 grid place-items-center bg-black/60 p-4" onClick={onClose}>
       <div className="w-full max-w-sm rounded-xl bg-neutral-900 p-5" onClick={(e) => e.stopPropagation()}>
         <h2 className="text-lg font-semibold">{hasPassword ? "Unlock editing" : "Set an edit password"}</h2>
-        <input
-          type="password" autoFocus value={pw}
-          onChange={(e) => setPw(e.target.value)}
+        <PasswordInput
+          autoFocus value={pw}
+          onChange={setPw}
           onKeyDown={(e) => e.key === "Enter" && submit()}
           placeholder={hasPassword ? "Password" : "New password"}
-          className="mt-3 w-full rounded-lg bg-neutral-800 px-3 py-2 outline-none"
+          className="mt-3"
         />
         {err && <p className="mt-2 text-sm text-red-400">{err}</p>}
         <div className="mt-4 flex justify-end gap-2">
