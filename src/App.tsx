@@ -7,14 +7,14 @@ import { LoginModal } from "./components/LoginModal";
 import { Grid } from "./components/Grid";
 import { Today } from "./components/Today";
 import { NumberChart } from "./components/NumberChart";
-import { ManageHabits } from "./components/ManageHabits";
-import { SettingsPanel } from "./components/SettingsPanel";
+import { Sidebar } from "./components/Sidebar";
 import { istToday, addDays } from "./lib/dates";
 
 export default function App() {
   const [state, setState] = useState<AppState | null>(null);
   const [pw, setPwState] = useState<string | null>(getPw());
   const [showLogin, setShowLogin] = useState(false);
+  const [showPanel, setShowPanel] = useState(false);
 
   const reload = useCallback(() => { fetchState().then(setState); }, []);
   useEffect(() => { reload(); }, [reload]);
@@ -31,7 +31,7 @@ export default function App() {
 
   return (
     <div className="mx-auto max-w-5xl p-4 sm:p-6">
-      <Header state={state} pw={pw} onLock={onLock} onUnlockClick={() => setShowLogin(true)} />
+      <Header state={state} pw={pw} onLock={onLock} onUnlockClick={() => setShowLogin(true)} onOpenPanel={() => setShowPanel(true)} />
       {showLogin && (
         <LoginModal hasPassword={state.settings.has_password}
           onClose={() => setShowLogin(false)} onSuccess={onUnlockSuccess} />
@@ -46,8 +46,12 @@ export default function App() {
           <NumberChart key={h.id} habit={h} entries={state.entries} from={from} to={today} />
         ))}
       </section>
-      {pw && <ManageHabits state={state} pw={pw} onChanged={reload} />}
-      {pw && <SettingsPanel state={state} pw={pw} onChanged={reload} onPwChange={onPwChange} />}
+      {pw && (
+        <Sidebar
+          open={showPanel} onClose={() => setShowPanel(false)}
+          state={state} pw={pw} onChanged={reload} onPwChange={onPwChange}
+        />
+      )}
     </div>
   );
 }
