@@ -8,6 +8,7 @@ import { Grid } from "./components/Grid";
 import { Today } from "./components/Today";
 import { NumberChart } from "./components/NumberChart";
 import { ManageHabits } from "./components/ManageHabits";
+import { SettingsPanel } from "./components/SettingsPanel";
 import { istToday, addDays } from "./lib/dates";
 
 export default function App() {
@@ -45,7 +46,7 @@ export default function App() {
         ))}
       </section>
       {pw && <ManageHabits state={state} pw={pw} onChanged={reload} />}
-      {/* Settings wired in later tasks */}
+      {pw && <SettingsPanel state={state} pw={pw} onChanged={reload} />}
     </div>
   );
 }
