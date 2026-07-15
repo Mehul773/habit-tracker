@@ -4,7 +4,9 @@ import { istToday } from "../lib/dates";
 import { indexEntries, isMet, entryKey } from "../lib/logic";
 import { putEntry } from "../lib/api";
 
-export function Today({ state, pw, onChanged }: { state: AppState; pw: string | null; onChanged: () => void }) {
+export function Today({
+  state, pw, onChanged, onRequestUnlock,
+}: { state: AppState; pw: string | null; onChanged: () => void; onRequestUnlock: () => void }) {
   const today = istToday();
   const idx = indexEntries(state.entries);
   const [busy, setBusy] = useState<number | null>(null);
@@ -29,13 +31,14 @@ export function Today({ state, pw, onChanged }: { state: AppState; pw: string | 
           const met = isMet(h, entry);
           return (
             <li key={h.id}
-              className={`flex items-center gap-3 rounded-xl border px-3 py-2.5 ${met ? "border-green-700 bg-green-950/40" : "border-neutral-800 bg-neutral-900"}`}>
+              onClickCapture={(e) => { if (!pw) { e.preventDefault(); e.stopPropagation(); onRequestUnlock(); } }}
+              className={`flex items-center gap-3 rounded-xl border px-3 py-2.5 ${met ? "border-green-700 bg-green-950/40" : "border-neutral-800 bg-neutral-900"} ${!pw ? "cursor-pointer" : ""}`}>
               <span className="text-lg">{h.emoji}</span>
               <span className="flex-1">{h.name}</span>
               {h.kind === "check" ? (
                 <button
-                  disabled={!pw || busy === h.id}
-                  onClick={() => write({ habit_id: h.id, date: today, value: null, done: met ? 0 : 1 })}
+                  disabled={busy === h.id}
+                  onClick={() => pw && write({ habit_id: h.id, date: today, value: null, done: met ? 0 : 1 })}
                   className={`grid h-7 w-7 place-items-center rounded-full ${met ? "bg-green-500 text-black" : "bg-neutral-700"} disabled:opacity-40`}>
                   {met ? "✓" : ""}
                 </button>
@@ -58,7 +61,7 @@ export function Today({ state, pw, onChanged }: { state: AppState; pw: string | 
           );
         })}
       </ul>
-      {!pw && <p className="mt-2 text-xs text-neutral-600">Unlock to edit.</p>}
+      {!pw && <p className="mt-2 text-xs text-neutral-600">Tap any habit to unlock and edit.</p>}
     </section>
   );
 }

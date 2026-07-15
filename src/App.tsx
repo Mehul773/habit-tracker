@@ -22,6 +22,8 @@ export default function App() {
   function onUnlockSuccess(p: string) { savePw(p); setPwState(p); setShowLogin(false); reload(); }
   function onLock() { clearPw(); setPwState(null); }
   function onPwChange(p: string) { savePw(p); setPwState(p); }
+  // Any edit attempt while locked routes here instead of doing nothing.
+  function requestUnlock() { setShowLogin(true); }
 
   if (!state) return <div className="p-6">Loading…</div>;
 
@@ -31,7 +33,10 @@ export default function App() {
 
   return (
     <div className="mx-auto max-w-5xl p-4 sm:p-6">
-      <Header state={state} pw={pw} onLock={onLock} onUnlockClick={() => setShowLogin(true)} onOpenPanel={() => setShowPanel(true)} />
+      <Header
+        state={state} pw={pw} onLock={onLock} onUnlockClick={() => setShowLogin(true)}
+        onOpenPanel={pw ? () => setShowPanel(true) : requestUnlock}
+      />
       {showLogin && (
         <LoginModal hasPassword={state.settings.has_password}
           onClose={() => setShowLogin(false)} onSuccess={onUnlockSuccess} />
@@ -40,7 +45,7 @@ export default function App() {
         <h2 className="mb-1 text-sm font-medium text-neutral-400">The grid</h2>
         <Grid state={state} from={from} to={today} />
       </section>
-      <Today state={state} pw={pw} onChanged={reload} />
+      <Today state={state} pw={pw} onChanged={reload} onRequestUnlock={requestUnlock} />
       <section className="mt-6 grid gap-3 sm:grid-cols-2">
         {state.habits.filter((h) => h.kind === "number" && h.archived === 0).map((h) => (
           <NumberChart key={h.id} habit={h} entries={state.entries} from={from} to={today} />

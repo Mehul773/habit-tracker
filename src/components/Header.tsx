@@ -48,7 +48,7 @@ export function Header({
         <Chip label="Streak" value={`${streak}d`} />
         <Chip label="Perfect" value={perfect} />
         <Chip label="Active" value={activeN} />
-        {pw && onOpenPanel && (
+        {onOpenPanel && (
           <button
             onClick={onOpenPanel}
             aria-label="Manage habits and settings"
